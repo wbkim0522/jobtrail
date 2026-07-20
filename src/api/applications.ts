@@ -1,3 +1,4 @@
+
 import { mockApplications } from "@/mocks/mockApplications"
 import type { Application, NewAppliaction } from "@/types/application"
 
