@@ -24,9 +24,11 @@ const ApplicationTable = ({ data }: TableProps) => {
       <TableBody>
         {
           data.length === 0 ? (
-            <TableCell colSpan={5} className="text-center text-muted-foreground">
-              지원 이력이 없습니다
-            </TableCell>
+            <TableRow>
+              <TableCell colSpan={5} className="text-center text-muted-foreground">
+                지원 이력이 없습니다
+              </TableCell>
+            </TableRow>
           ) : (
             data.map((rowData) => (
               <TableRow key={rowData.id}>
