@@ -1,6 +1,6 @@
 import { fetchApplications } from "@/api/applications"
 import ApplicationTable from "@/components/application/ApplicationTable"
-import CreateDialog from "@/components/application/CreateDialog";
+import CreateDialog from "@/components/application/CreateDialog"
 import { useQuery } from "@tanstack/react-query"
 
 const App = () => {

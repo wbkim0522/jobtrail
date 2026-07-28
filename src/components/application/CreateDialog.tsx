@@ -1,34 +1,41 @@
 import { createApplication } from "@/api/applications"
+import StatusSelect from "@/components/application/StatusSelect"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Field, FieldGroup } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
-import { APPLICATION_STATUS, type ApplicationStatus } from "@/constants/status"
 import { getToday } from "@/lib/date"
 import type { NewAppliaction } from "@/types/application"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useState } from "react"
 
-const items = Object.entries(APPLICATION_STATUS).map(([key, config]) => ({ value: key, label: config.label }));
+const getInitialData = (): NewAppliaction => ({
+  company: "",
+  appliedAt: getToday(),     // 호출 시점의 오늘
+  source: "",
+  status: "draft",
+  note: "",
+})
 
 const CreateDialog = () => {
 
-  const [data, setData] = useState<NewAppliaction>({
-    company: "",
-    appliedAt: getToday(),
-    source: "",
-    status: "draft",
-    note: "",
+  const [open, setOpen] = useState<boolean>(false)
+  const [data, setData] = useState<NewAppliaction>(getInitialData)
+
+  const queryClient = useQueryClient()
+  const createData = useMutation({
+    mutationFn: createApplication,
+    onSuccess: async () => {
+      await queryClient.invalidateQueries({ queryKey: ['applications'] })
+      setOpen(false)
+      setData(getInitialData())
+    },
   });
 
-  const handleCreate = () => {
-    createApplication(data);
-  }
-
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
 
       <DialogTrigger render={<Button>등록하기</Button>} />
       <DialogContent>
@@ -58,23 +65,7 @@ const CreateDialog = () => {
           </Field>
           <Field>
             <Label htmlFor="status">상태</Label>
-            <Select items={items} value={data.status}
-              onValueChange={(e) => setData({ ...data, status: e as ApplicationStatus })}>
-              <SelectTrigger>
-                <SelectValue placeholder="상태를 선택하세요" />
-              </SelectTrigger>
-              <SelectContent alignItemWithTrigger={false}>
-                <SelectGroup>
-                  {
-                    items.map((item) => (
-                      <SelectItem key={item.value} value={item.value}>
-                        {item.label}
-                      </SelectItem>
-                    ))
-                  }
-                </SelectGroup>
-              </SelectContent>
-            </Select>
+            <StatusSelect value={data.status} onChange={(e) => { setData({ ...data, status: e }) }} />
           </Field>
           <Field>
             <Label htmlFor="note">비고</Label>
@@ -85,7 +76,7 @@ const CreateDialog = () => {
 
         <DialogFooter>
           <DialogClose render={<Button variant="outline">닫기</Button>} />
-          <Button onClick={() => { handleCreate() }}>
+          <Button onClick={() => createData.mutate(data)}>
             저장
           </Button>
         </DialogFooter>
