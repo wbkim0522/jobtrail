@@ -1,22 +1,30 @@
-import { mockApplications } from "@/mocks/mockApplications"
 import type { Application, NewAppliaction } from "@/types/application"
 
-export const fetchApplications = async (): Promise<Application[]> => {
-    await new Promise((resolve) => {
-        setTimeout(resolve, 300)
-    })
-
-    return mockApplications
+export const db = {
+  applications: [] as Application[],
 }
 
-export const createApplication = async (input: NewAppliaction) : Promise<Application> => {
+export const fetchApplications = async (): Promise<Application[]> => {
+  // fake api call delay
+  await new Promise((resolve) => {
+    setTimeout(resolve, 300)
+  })
 
-    const newData = {
-        ...input,
-        id: crypto.randomUUID()
-    }
+  return db.applications
+}
 
-    mockApplications.push(newData);
+export const createApplication = async (
+  input: NewAppliaction,
+): Promise<Application> => {
+  // fake api call delay
+  await new Promise((r) => setTimeout(r, 300))
 
-    return newData
+  const newData = {
+    ...input,
+    id: crypto.randomUUID(),
+  }
+
+  db.applications = [...db.applications, newData]
+
+  return newData
 }
