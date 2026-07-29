@@ -1,76 +1,25 @@
-# React + TypeScript + Vite
+# Jobtrail
+日本での転職活動を管理するために開発した、求人応募トラッキングアプリです。
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## なぜ作ったか
+転職活動中、応募先・選考状況・応募経路をスプレッドシートで管理していましたが、
+状態変更の履歴が残らない・集計が面倒という課題があり、自分で使うツールとして開発しています。
 
-Currently, two official plugins are available:
+## 技術スタック
+- React 19 + TypeScript + Vite
+- TanStack Query — サーバー状態管理・キャッシュ
+- Tailwind CSS + shadcn/ui — UIコンポーネント
+- Supabase(予定) — 現在はモックデータ、DB移行を前提としたAPI層設計
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 主な機能
+- 応募一覧の表示(ステータスバッジ付き)
+- 応募の新規登録(登録後の一覧自動更新)
+- 応募の削除(開発中)
 
-## React Compiler
+## 設計のポイント
+- API層を分離し、モック→Supabase移行時にコンポーネント側の変更が不要な構造
+- ステータス定義を単一ソース化し、型・ラベル・色を一箇所で管理
+- 機能ブランチ + Pull Request ベースの開発フロー
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
-```
-
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
-
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-
-```
-# jobtrail
+## 今後の予定
+- 編集機能 / フィルタリング / Supabase移行
