@@ -1,9 +1,11 @@
+import { mockApplications } from "@/mocks/mockApplications"
 import type { Application, NewAppliaction } from "@/types/application"
 
 export const db = {
-  applications: [] as Application[],
+  applications: mockApplications,
 }
 
+// read
 export const fetchApplications = async (): Promise<Application[]> => {
   // fake api call delay
   await new Promise((resolve) => {
@@ -13,6 +15,7 @@ export const fetchApplications = async (): Promise<Application[]> => {
   return db.applications
 }
 
+// create
 export const createApplication = async (
   input: NewAppliaction,
 ): Promise<Application> => {
@@ -27,4 +30,14 @@ export const createApplication = async (
   db.applications = [...db.applications, newData]
 
   return newData
+}
+
+// delete
+export const deleteApplication = async (id: string): Promise<void> => {
+  // fake api call delay
+  await new Promise((r) => setTimeout(r, 300))
+
+  const newList = db.applications.filter((item) => item.id !== id)
+
+  db.applications = newList
 }

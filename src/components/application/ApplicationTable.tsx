@@ -1,6 +1,8 @@
+import DeleteDialog from "@/components/application/DeleteDialog"
 import StatusBadge from "@/components/application/StatusBadge"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import type { Application } from "@/types/application"
+
 
 interface TableProps {
   data: Application[]
@@ -18,6 +20,7 @@ const ApplicationTable = ({ data }: TableProps) => {
           <TableHead>지원처</TableHead>
           <TableHead>상태</TableHead>
           <TableHead>비고</TableHead>
+          <TableHead>삭제</TableHead>
         </TableRow>
       </TableHeader>
 
@@ -25,7 +28,7 @@ const ApplicationTable = ({ data }: TableProps) => {
         {
           data.length === 0 ? (
             <TableRow>
-              <TableCell colSpan={5} className="text-center text-muted-foreground">
+              <TableCell colSpan={6} className="text-center text-muted-foreground">
                 지원 이력이 없습니다
               </TableCell>
             </TableRow>
@@ -46,6 +49,9 @@ const ApplicationTable = ({ data }: TableProps) => {
                 </TableCell>
                 <TableCell>
                   {rowData.note}
+                </TableCell>
+                <TableCell>
+                  <DeleteDialog data={rowData}/>
                 </TableCell>
               </TableRow>
             ))
