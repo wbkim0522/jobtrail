@@ -38,9 +38,9 @@ const DeleteDialog = ({ data }: DeleteDialogProps) => {
           </AlertDialogMedia>
           <AlertDialogTitle>지원 정보 삭제하기</AlertDialogTitle>
           <AlertDialogDescription>
-            {data.company} <br />
-            {data.appliedAt} / {data.source} <br />
-            선택한 회사정보를 삭제하시겠습니까?
+            선택한 {data.company} 의<br />
+            지원 정보를 삭제하시겠습니까? <br />
+            삭제하면 되돌릴 수 없습니다.
           </AlertDialogDescription>
         </AlertDialogHeader>
 
