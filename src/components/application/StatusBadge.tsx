@@ -4,7 +4,7 @@ import { cn } from "@/lib/utils"
 import { cva } from "class-variance-authority"
 
 const statusBadgeVariants = cva(
-	"border font-medium transition-colors",
+	"border font-medium transition-colors min-w-16",
 	{
 		variants: {
 			status: {
