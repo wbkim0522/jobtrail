@@ -41,3 +41,13 @@ export const deleteApplication = async (id: string): Promise<void> => {
 
   db.applications = newList
 }
+
+// update
+export const updateApplication = async (data: Application): Promise<void> => {
+  // fake api call delay
+  await new Promise((r) => setTimeout(r, 300))
+
+  const updateList = db.applications.map((item) => (item.id === data.id) ? data : item)
+
+  db.applications = updateList
+}

@@ -1,4 +1,5 @@
 import DeleteDialog from "@/components/application/DeleteDialog"
+import EditDialog from "@/components/application/EditDialog"
 import StatusBadge from "@/components/application/StatusBadge"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import type { Application } from "@/types/application"
@@ -20,7 +21,7 @@ const ApplicationTable = ({ data }: TableProps) => {
           <TableHead>지원처</TableHead>
           <TableHead>상태</TableHead>
           <TableHead>비고</TableHead>
-          <TableHead>삭제</TableHead>
+          <TableHead>편집</TableHead>
         </TableRow>
       </TableHeader>
 
@@ -51,7 +52,8 @@ const ApplicationTable = ({ data }: TableProps) => {
                   {rowData.note}
                 </TableCell>
                 <TableCell>
-                  <DeleteDialog data={rowData}/>
+                  <EditDialog data={rowData} />
+                  <DeleteDialog data={rowData} />
                 </TableCell>
               </TableRow>
             ))
