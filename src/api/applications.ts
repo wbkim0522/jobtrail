@@ -1,5 +1,5 @@
 import { mockApplications } from "@/mocks/mockApplications"
-import type { Application, NewAppliaction } from "@/types/application"
+import type { Application, NewApplication } from "@/types/application"
 
 export const db = {
   applications: mockApplications,
@@ -17,7 +17,7 @@ export const fetchApplications = async (): Promise<Application[]> => {
 
 // create
 export const createApplication = async (
-  input: NewAppliaction,
+  input: NewApplication,
 ): Promise<Application> => {
   // fake api call delay
   await new Promise((r) => setTimeout(r, 300))

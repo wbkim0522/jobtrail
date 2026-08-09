@@ -11,4 +11,4 @@ export type Application = {
 }
 
 // 등록용 (Create)
-export type NewAppliaction = Omit<Application, 'id'>
+export type NewApplication = Omit<Application, 'id'>
