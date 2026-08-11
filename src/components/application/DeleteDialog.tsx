@@ -45,12 +45,12 @@ const DeleteDialog = ({ data }: DeleteDialogProps) => {
         </AlertDialogHeader>
 
         <AlertDialogFooter>
-          <AlertDialogCancel>취소</AlertDialogCancel>
+          <AlertDialogCancel>キャンセル</AlertDialogCancel>
           <AlertDialogAction
             variant="destructive"
             disabled={deleteData.isPending}
             onClick={() => { deleteData.mutate(data.id) }}>
-            삭제하기
+            削除
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
