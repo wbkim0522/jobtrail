@@ -4,7 +4,8 @@ import CreateDialog from "@/components/application/CreateDialog"
 import { useQuery } from "@tanstack/react-query"
 
 const App = () => {
-
+  console.log(import.meta.env.VITE_SUPABASE_URL)
+  console.log(import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY)
   const reuslt = useQuery({
     queryKey: ['applications'],
     queryFn: fetchApplications
