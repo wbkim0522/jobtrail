@@ -17,9 +17,14 @@ export const fetchApplications = async (): Promise<Application[]> => {
 export const createApplication = async (
   input: NewApplication,
 ): Promise<Application> => {
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+  if (!user) throw new Error("Not authenticated")
+
   const { data, error } = await supabase
     .from("applications")
-    .insert(toRow(input))
+    .insert({ ...toRow(input), user_id: user.id })
     .select()
     .single()
 
@@ -39,7 +44,7 @@ export const updateApplication = async (data: Application): Promise<void> => {
   const { error } = await supabase
     .from("applications")
     .update(toRow(data))
-    .eq('id', data.id);
+    .eq("id", data.id)
 
   if (error) throw error
 }
