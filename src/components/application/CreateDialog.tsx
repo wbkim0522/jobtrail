@@ -23,13 +23,13 @@ const CreateDialog = () => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
 
-      <DialogTrigger render={<Button>등록하기</Button>} />
+      <DialogTrigger render={<Button>応募を追加</Button>} />
       <DialogContent>
 
         <DialogHeader>
-          <DialogTitle>지원 정보 등록하기</DialogTitle>
+          <DialogTitle>応募情報の登録</DialogTitle>
           <DialogDescription>
-            지원한 회사, 날짜, 경로, 상태 등을 입력하세요.
+            応募先の情報を入力してください
           </DialogDescription>
         </DialogHeader>
 
@@ -38,12 +38,14 @@ const CreateDialog = () => {
         )}
 
         <DialogFooter>
-          <DialogClose render={<Button variant="outline">닫기</Button>} />
+          <DialogClose render={<Button variant="outline">
+            キャンセル
+          </Button>} />
           <Button
             type="submit"
             form={formId}
             disabled={createData.isPending}>
-            저장
+            保存
           </Button>
         </DialogFooter>
       </DialogContent>

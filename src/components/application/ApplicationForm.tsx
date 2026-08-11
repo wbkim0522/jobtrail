@@ -33,27 +33,27 @@ const ApplicationForm = ({ defaultValue, onSubmit, formId }: ApplicationFormProp
     }}>
       <FieldGroup>
         <Field>
-          <Label htmlFor="company">회사</Label>
+          <Label htmlFor="company">会社</Label>
           <Input id="company" value={data.company}
             onChange={(e) => setData({ ...data, company: e.target.value })} />
         </Field>
         <Field>
-          <Label htmlFor="appliedAt">날짜</Label>
+          <Label htmlFor="appliedAt">応募日</Label>
           <Input id="appliedAt" type="date" value={data.appliedAt ?? ''}
             onChange={(e) => setData({ ...data, appliedAt: e.target.value })} />
         </Field>
         <Field>
-          <Label htmlFor="source">경로</Label>
+          <Label htmlFor="source">応募経路</Label>
           <Input id="source" value={data.source}
             onChange={(e) => setData({ ...data, source: e.target.value })} />
         </Field>
         <Field>
-          <Label htmlFor="status">상태</Label>
+          <Label htmlFor="status">ステータス</Label>
           <StatusSelect value={data.status} onChange={(e) => { setData({ ...data, status: e }) }} />
         </Field>
         <Field>
-          <Label htmlFor="note">비고</Label>
-          <Textarea placeholder="그 외 정보를 입력하세요" value={data.note}
+          <Label htmlFor="note">備考</Label>
+          <Textarea placeholder="その他の情報を入力" value={data.note}
             onChange={(e) => setData({ ...data, note: e.target.value })} />
         </Field>
       </FieldGroup>

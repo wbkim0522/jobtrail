@@ -13,7 +13,7 @@ const StatusSelect = ({ value, onChange }: StatusSelectProps) => {
     <Select items={items} value={value}
       onValueChange={(e) => onChange(e as ApplicationStatus)}>
       <SelectTrigger>
-        <SelectValue placeholder="상태를 선택하세요" />
+        <SelectValue placeholder="ステータスを選択" />
       </SelectTrigger>
       <SelectContent alignItemWithTrigger={false}>
         <SelectGroup>

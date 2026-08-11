@@ -25,7 +25,7 @@ const DeleteDialog = ({ data }: DeleteDialogProps) => {
   return (
     <AlertDialog open={open} onOpenChange={setOpen}>
       <AlertDialogTrigger render={
-        <Button variant="ghost" size="icon" aria-label="삭제">
+        <Button variant="ghost" size="icon" aria-label="削除">
           <Trash2 />
         </Button>
       } />
@@ -36,11 +36,11 @@ const DeleteDialog = ({ data }: DeleteDialogProps) => {
           <AlertDialogMedia>
             <TriangleAlertIcon color="red" />
           </AlertDialogMedia>
-          <AlertDialogTitle>지원 정보 삭제하기</AlertDialogTitle>
+          <AlertDialogTitle>応募情報の削除</AlertDialogTitle>
           <AlertDialogDescription>
-            선택한 {data.company} 의<br />
-            지원 정보를 삭제하시겠습니까? <br />
-            삭제하면 되돌릴 수 없습니다.
+            <b>{data.company}</b> <br />
+            応募情報を削除します。<br />
+            この操作は元に戻せません。
           </AlertDialogDescription>
         </AlertDialogHeader>
 
