@@ -36,14 +36,14 @@
 
 ## ローカル環境での実行
 
-\`\`\`bash
+```bash
 npm install
 npm run dev
-\`\`\`
+```
 
 `.env.local` に以下の環境変数が必要です。
 
-\`\`\`
+```
 VITE_SUPABASE_URL=
 VITE_SUPABASE_PUBLISHABLE_KEY=
-\`\`\`
+```
