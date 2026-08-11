@@ -7,7 +7,10 @@ type ApplicationInsert = Database["public"]["Tables"]["applications"]["Insert"]
 
 // read
 export const fetchApplications = async (): Promise<Application[]> => {
-  const { data, error } = await supabase.from("applications").select()
+  const { data, error } = await supabase
+    .from("applications")
+    .select()
+    .order("applied_at", { ascending: false, nullsFirst: true})
   if (error) throw error
 
   return data.map(toApplication)
