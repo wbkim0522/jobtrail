@@ -3,6 +3,7 @@ import ApplicationForm from "@/components/application/ApplicationForm"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { Plus } from "lucide-react"
 import { useState } from "react"
 
 const formId = "create-application-form"
@@ -23,7 +24,7 @@ const CreateDialog = () => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
 
-      <DialogTrigger render={<Button>応募を追加</Button>} />
+      <DialogTrigger render={<Button><Plus />追加</Button>} />
       <DialogContent>
 
         <DialogHeader>
