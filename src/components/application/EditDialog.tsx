@@ -29,13 +29,13 @@ const EditDialog = ({ data }: EditDialogProps) => {
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger render={<Button variant="ghost" size="icon" aria-label="수정"><SquarePen /></Button>} />
+      <DialogTrigger render={<Button variant="ghost" size="icon" aria-label="編集"><SquarePen /></Button>} />
       <DialogContent>
 
         <DialogHeader>
-          <DialogTitle>지원 정보 수정하기</DialogTitle>
+          <DialogTitle>応募情報の編集</DialogTitle>
           <DialogDescription>
-            지원한 회사, 날짜, 경로, 상태 등을 수정하세요.
+            応募先の情報を編集してください
           </DialogDescription>
         </DialogHeader>
 
@@ -44,12 +44,14 @@ const EditDialog = ({ data }: EditDialogProps) => {
         )}
 
         <DialogFooter>
-          <DialogClose render={<Button variant="outline">닫기</Button>} />
+          <DialogClose render={<Button variant="outline">
+            キャンセル
+          </Button>} />
           <Button
             type="submit"
             form={formId}
             disabled={updateData.isPending}>
-            저장
+            保存
           </Button>
         </DialogFooter>
 
