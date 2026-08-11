@@ -40,7 +40,7 @@ const ApplicationForm = ({ defaultValue, onSubmit, formId }: ApplicationFormProp
         <Field>
           <Label htmlFor="appliedAt">応募日</Label>
           <Input id="appliedAt" type="date" value={data.appliedAt ?? ''}
-            onChange={(e) => setData({ ...data, appliedAt: e.target.value })} />
+            onChange={(e) => setData({ ...data, appliedAt: e.target.value || null })} />
         </Field>
         <Field>
           <Label htmlFor="source">応募経路</Label>
