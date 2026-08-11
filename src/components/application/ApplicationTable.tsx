@@ -13,15 +13,15 @@ const ApplicationTable = ({ data }: TableProps) => {
 
   return (
     <section className="rounded-md border overflow-hidden">
-      <Table containerClassName="max-h-[calc(100vh-160px)] overflow-y-auto">
+      <Table className="table-fixed" containerClassName="max-h-[calc(100vh-140px)] overflow-y-auto">
         <TableHeader className="sticky top-0 z-10 border-b bg-muted">
           <TableRow>
-            <TableHead>会社</TableHead>
-            <TableHead>応募日</TableHead>
-            <TableHead>応募経路</TableHead>
-            <TableHead>ステータス</TableHead>
+            <TableHead className="w-50">会社</TableHead>
+            <TableHead className="w-25 text-center">応募日</TableHead>
+            <TableHead className="w-35">応募経路</TableHead>
+            <TableHead className="w-23 text-center">ステータス</TableHead>
             <TableHead>備考</TableHead>
-            <TableHead></TableHead>
+            <TableHead className="w-21"></TableHead>
           </TableRow>
         </TableHeader>
 
@@ -36,19 +36,19 @@ const ApplicationTable = ({ data }: TableProps) => {
             ) : (
               data.map((rowData) => (
                 <TableRow key={rowData.id}>
-                  <TableCell>
+                  <TableCell className="truncate">
                     {rowData.company}
                   </TableCell>
-                  <TableCell>
+                  <TableCell className="text-center">
                     {rowData.appliedAt ?? '-'}
                   </TableCell>
                   <TableCell>
                     {rowData.source}
                   </TableCell>
-                  <TableCell>
+                  <TableCell className="text-center">
                     <StatusBadge status={rowData.status} />
                   </TableCell>
-                  <TableCell>
+                  <TableCell className="truncate">
                     {rowData.note}
                   </TableCell>
                   <TableCell className="flex gap-1">
