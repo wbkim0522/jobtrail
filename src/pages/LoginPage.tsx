@@ -50,7 +50,7 @@ const LoginPage = () => {
           <AlertDialogTrigger
             render={
               <Button variant="outline" size="lg" disabled={loading}>
-                ゲストとして試す
+                ゲストで試す
               </Button>
             }
           />
