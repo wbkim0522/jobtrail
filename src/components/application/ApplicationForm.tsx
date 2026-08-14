@@ -1,11 +1,13 @@
 
+import { fetchApplications } from '@/api/applications'
 import StatusSelect from '@/components/application/StatusSelect'
-import { Field, FieldGroup } from '@/components/ui/field'
+import { Field, FieldError, FieldGroup } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { getToday } from '@/lib/date'
-import type { NewApplication } from '@/types/application'
+import type { Application, NewApplication } from '@/types/application'
+import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 
 const getInitialData = (): NewApplication => ({
@@ -17,44 +19,59 @@ const getInitialData = (): NewApplication => ({
 })
 
 interface ApplicationFormProps {
-  defaultValue?: NewApplication
+  defaultValue?: Application
   onSubmit: (values: NewApplication) => void
   formId: string
 }
 
 const ApplicationForm = ({ defaultValue, onSubmit, formId }: ApplicationFormProps) => {
 
-  const [data, setData] = useState<NewApplication>(defaultValue ?? getInitialData())
+  const { data } = useQuery({
+    queryKey: ['applications'],
+    queryFn: fetchApplications
+  })
+
+  const [newData, setNewData] = useState<NewApplication>(defaultValue ?? getInitialData());
+  const duplicate = (data ?? []).find((item) => (
+    item.company === newData.company &&
+    item.company !== '' &&
+    item.id !== defaultValue?.id
+  ))
 
   return (
     <form id={formId} onSubmit={(e) => {
       e.preventDefault();
-      onSubmit(data);
+      onSubmit(newData);
     }}>
       <FieldGroup>
-        <Field>
+        <Field className='relative'>
           <Label htmlFor="company">会社</Label>
-          <Input id="company" value={data.company}
-            onChange={(e) => setData({ ...data, company: e.target.value })} />
+          <Input id="company" value={newData.company}
+            onChange={(e) => { setNewData({ ...newData, company: e.target.value }) }} />
+          {duplicate && (
+            <FieldError className='absolute -bottom-5.5 right-1 text-xs animate-in fade-in text-right'>
+              {duplicate.appliedAt ? `${duplicate.appliedAt}に登録済みです` : "登録済みです"}
+            </FieldError>
+          )}
         </Field>
         <Field>
           <Label htmlFor="appliedAt">応募日</Label>
-          <Input id="appliedAt" type="date" value={data.appliedAt ?? ''}
-            onChange={(e) => setData({ ...data, appliedAt: e.target.value || null })} />
+          <Input id="appliedAt" type="date" value={newData.appliedAt ?? ''}
+            onChange={(e) => setNewData({ ...newData, appliedAt: e.target.value || null })} />
         </Field>
         <Field>
           <Label htmlFor="source">応募経路</Label>
-          <Input id="source" value={data.source}
-            onChange={(e) => setData({ ...data, source: e.target.value })} />
+          <Input id="source" value={newData.source}
+            onChange={(e) => setNewData({ ...newData, source: e.target.value })} />
         </Field>
         <Field>
           <Label htmlFor="status">ステータス</Label>
-          <StatusSelect value={data.status} onChange={(e) => { setData({ ...data, status: e }) }} />
+          <StatusSelect value={newData.status} onChange={(e) => { setNewData({ ...newData, status: e }) }} />
         </Field>
         <Field>
           <Label htmlFor="note">備考</Label>
-          <Textarea placeholder="その他の情報を入力" value={data.note}
-            onChange={(e) => setData({ ...data, note: e.target.value })} />
+          <Textarea placeholder="その他の情報を入力" value={newData.note}
+            onChange={(e) => setNewData({ ...newData, note: e.target.value })} />
         </Field>
       </FieldGroup>
     </form>

@@ -16,7 +16,7 @@ interface EditDialogProps {
 const EditDialog = ({ data }: EditDialogProps) => {
 
   const [open, setOpen] = useState<boolean>(false)
-  const { id, ...formData } = data
+  const { id } = data
 
   const queryClient = useQueryClient()
   const updateData = useMutation({
@@ -40,7 +40,11 @@ const EditDialog = ({ data }: EditDialogProps) => {
         </DialogHeader>
 
         {open && (
-          <ApplicationForm defaultValue={formData} onSubmit={(item) => updateData.mutate({ ...item, id })} formId={formId} />
+          <ApplicationForm
+            defaultValue={data}
+            onSubmit={(item) => updateData.mutate({ ...item, id })}
+            formId={formId}
+          />
         )}
 
         <DialogFooter>
