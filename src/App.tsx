@@ -1,26 +1,22 @@
-import { useSession } from "@/hooks/useSession"
+import AppLayout from "@/components/layout/AppLayout"
+import RequireAuth from "@/components/layout/RequireAuth"
 import ApplicationListPage from "@/pages/ApplicationListPage"
 import LoginPage from "@/pages/LoginPage"
-import { Loader2 } from "lucide-react"
-import { Navigate, Route, Routes } from "react-router"
+import StatisticsPage from "@/pages/StatisticsPage"
+import { Route, Routes } from "react-router"
 
 
 const App = () => {
 
-  const { session, loading } = useSession()
-
-  if (loading) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <Loader2 className="size-8 animate-spin text-muted-foreground" />
-      </div>
-    )
-  }
-
   return (
     <Routes>
-      <Route path="/login" element={session ? <Navigate to='/' /> : <LoginPage />} />
-      <Route path="/" element={session ? <ApplicationListPage /> : <Navigate to="/login" replace />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route element={<RequireAuth />}>
+        <Route element={<AppLayout />}>
+          <Route path="/" element={<ApplicationListPage />} />
+          <Route path="/statistics" element={<StatisticsPage />} />
+        </Route>
+      </Route>
     </Routes>
   )
 }
