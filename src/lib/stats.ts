@@ -1,16 +1,19 @@
-import { APPLICATION_STATUS, isApplicationStatus, type ApplicationStatus } from "@/constants/status"
+import {
+  APPLICATION_STATUS,
+  isApplicationStatus,
+  type ApplicationStatus,
+} from "@/constants/status"
 import type { Application } from "@/types/application"
 
+// Month
 export type MonthlyCount = { month: string; count: number }
-
-const toMonthKey = (d: Date) => {
-  const yaer = d.getFullYear()
-  const month = String(d.getMonth() + 1).padStart(2, "0")
-  return `${yaer}-${month}`
-}
-
 export const countByMonth = (applications: Application[]): MonthlyCount[] => {
   const counts = new Map<string, number>()
+  const toMonthKey = (d: Date) => {
+    const yaer = d.getFullYear()
+    const month = String(d.getMonth() + 1).padStart(2, "0")
+    return `${yaer}-${month}`
+  }
 
   for (const app of applications) {
     const month = app.appliedAt?.slice(0, 7) // yyyy-MM
@@ -37,6 +40,7 @@ export const countByMonth = (applications: Application[]): MonthlyCount[] => {
   return result
 }
 
+// Status
 export type StatusCount = { status: ApplicationStatus; count: number }
 export const countByStatus = (applications: Application[]): StatusCount[] => {
   const counts = new Map<ApplicationStatus, number>()
@@ -46,11 +50,31 @@ export const countByStatus = (applications: Application[]): StatusCount[] => {
     counts.set(status, (counts.get(status) ?? 0) + 1)
   }
 
-  const statuses = Object.keys(APPLICATION_STATUS).filter(isApplicationStatus);
+  const statuses = Object.keys(APPLICATION_STATUS).filter(isApplicationStatus)
   const result = statuses.map((status) => ({
     status,
-    count: counts.get(status) ?? 0
+    count: counts.get(status) ?? 0,
   }))
 
-  return result;
+  return result
+}
+
+// Summary
+export type Summary = {
+  total: number
+  inProgress: number
+  rejected: number
+}
+
+export const summarize = (applications: Application[]): Summary => {
+  const counts = countByStatus(applications)
+
+  const get = (status: ApplicationStatus) =>
+    counts.find((item) => item.status === status)?.count ?? 0
+
+  return {
+    total: applications.length - get("draft"),
+    inProgress: get("applied") + get("screening") + get("interview"),
+    rejected: get("rejected"),
+  }
 }
