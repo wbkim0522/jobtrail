@@ -12,7 +12,7 @@ const ApplicationListPage = () => {
 
   const [keyword, setKeyword] = useState('');
 
-  const filtered = (data ?? []).filter((item) =>
+  const filtered = (data).filter((item) =>
     item.company.toLowerCase().includes(keyword.toLowerCase())
   )
 

@@ -27,7 +27,7 @@ const ApplicationForm = ({ defaultValue, onSubmit, formId }: ApplicationFormProp
   const { data } = useApplications();
 
   const [newData, setNewData] = useState<NewApplication>(defaultValue ?? getInitialData());
-  const duplicate = (data ?? []).find((item) => (
+  const duplicate = (data).find((item) => (
     item.company === newData.company &&
     item.company !== '' &&
     item.id !== defaultValue?.id
