@@ -9,3 +9,4 @@ export const APPLICATION_STATUS = {
 } as const
 
 export type ApplicationStatus = keyof typeof APPLICATION_STATUS
+export const isApplicationStatus = (value: string): value is ApplicationStatus => value in APPLICATION_STATUS;
