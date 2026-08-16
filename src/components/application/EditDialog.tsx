@@ -2,6 +2,7 @@ import { updateApplication } from "@/api/applications"
 import ApplicationForm from "@/components/application/ApplicationForm"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { useApplications } from "@/hooks/useApplications"
 import type { Application } from "@/types/application"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { SquarePen } from "lucide-react"
@@ -15,6 +16,7 @@ interface EditDialogProps {
 
 const EditDialog = ({ data }: EditDialogProps) => {
 
+  const { applications } = useApplications();
   const [open, setOpen] = useState<boolean>(false)
   const { id } = data
 
@@ -41,6 +43,7 @@ const EditDialog = ({ data }: EditDialogProps) => {
 
         {open && (
           <ApplicationForm
+            applications={applications}
             defaultValue={data}
             onSubmit={(item) => updateData.mutate({ ...item, id })}
             formId={formId}

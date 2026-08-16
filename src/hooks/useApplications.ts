@@ -7,5 +7,5 @@ export const useApplications = () => {
     queryFn: fetchApplications,
   })
 
-  return { data: data ?? [], isLoading }
+  return { applications: data ?? [], isLoading }
 }

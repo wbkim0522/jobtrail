@@ -6,13 +6,13 @@ import { countByMonth, countByStatus, summarize } from "@/lib/stats"
 
 const StatisticsPage = () => {
 
-  const { data } = useApplications();
+  const { applications } = useApplications();
 
   return (
     <main className="flex flex-col gap-4">
-      <SummaryCards data={summarize(data)}/>
-      <StatusChart data={countByStatus(data)} />
-      <MonthChart data={countByMonth(data)} />
+      <SummaryCards data={summarize(applications)}/>
+      <StatusChart data={countByStatus(applications)} />
+      <MonthChart data={countByMonth(applications)} />
     </main>
   )
 }

@@ -8,11 +8,11 @@ import { useState } from "react"
 
 const ApplicationListPage = () => {
 
-  const { data, isLoading } = useApplications();
+  const { applications, isLoading } = useApplications();
 
   const [keyword, setKeyword] = useState('');
 
-  const filtered = (data).filter((item) =>
+  const filtered = (applications).filter((item) =>
     item.company.toLowerCase().includes(keyword.toLowerCase())
   )
 

@@ -3,7 +3,6 @@ import { Field, FieldError, FieldGroup } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
-import { useApplications } from '@/hooks/useApplications'
 import { getToday } from '@/lib/date'
 import type { Application, NewApplication } from '@/types/application'
 import { useState } from 'react'
@@ -17,17 +16,16 @@ const getInitialData = (): NewApplication => ({
 })
 
 interface ApplicationFormProps {
+  applications: Application[]
   defaultValue?: Application
   onSubmit: (values: NewApplication) => void
   formId: string
 }
 
-const ApplicationForm = ({ defaultValue, onSubmit, formId }: ApplicationFormProps) => {
-
-  const { data } = useApplications();
+const ApplicationForm = ({ applications, defaultValue, onSubmit, formId }: ApplicationFormProps) => {
 
   const [newData, setNewData] = useState<NewApplication>(defaultValue ?? getInitialData());
-  const duplicate = (data).find((item) => (
+  const duplicate = (applications).find((item) => (
     item.company === newData.company &&
     item.company !== '' &&
     item.id !== defaultValue?.id
