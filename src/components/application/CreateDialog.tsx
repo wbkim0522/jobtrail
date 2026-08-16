@@ -2,6 +2,7 @@ import { createApplication } from "@/api/applications"
 import ApplicationForm from "@/components/application/ApplicationForm"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { useApplications } from "@/hooks/useApplications"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { Plus } from "lucide-react"
 import { useState } from "react"
@@ -11,6 +12,7 @@ const formId = "create-application-form"
 const CreateDialog = () => {
 
   const [open, setOpen] = useState<boolean>(false)
+  const { applications } = useApplications();
 
   const queryClient = useQueryClient()
   const createData = useMutation({
@@ -35,7 +37,7 @@ const CreateDialog = () => {
         </DialogHeader>
 
         {open && (
-          <ApplicationForm onSubmit={(item) => createData.mutate(item)} formId={formId} />
+          <ApplicationForm applications={applications} onSubmit={(item) => createData.mutate(item)} formId={formId} />
         )}
 
         <DialogFooter>
