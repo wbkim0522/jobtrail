@@ -1,12 +1,15 @@
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog'
 import { Button } from '@/components/ui/button'
+import { useSession } from '@/hooks/useSession'
 import { supabase } from '@/lib/supabase'
 import { useState } from 'react'
+import { Navigate, useNavigate } from 'react-router'
 
 const LoginPage = () => {
 
-  const [loading, setLoading] = useState(false)
-
+  const [isSigningIn, setIsSigningIn] = useState(false);
+  const { session, loading } = useSession();
+  const navigate = useNavigate();
 
   const handleGoogleLogin = async () => {
     const { error } = await supabase.auth.signInWithOAuth({
@@ -16,20 +19,31 @@ const LoginPage = () => {
       }
     })
 
-    if (error) console.error(error)
-    setLoading(false)
+    if (error) {
+      console.error(error);
+    }
   }
 
 
   const handleGuestLogin = async () => {
+    setIsSigningIn(true);
+
     const { error } = await supabase.auth.signInWithPassword({
       email: import.meta.env.VITE_DEMO_EMAIL,
       password: import.meta.env.VITE_DEMO_PASSWORD,
     })
 
-    if (error) console.error(error)
-    setLoading(false)
+    if (error) {
+      console.error(error);
+      setIsSigningIn(false);
+      return;
+    }
+
+    navigate('/', { replace: true });
   }
+
+  if(loading) return null; // prevent flicker
+  if (session) return <Navigate to="/" replace />
 
 
   return (
@@ -42,14 +56,14 @@ const LoginPage = () => {
       </div>
 
       <div className="flex flex-col gap-2">
-        <Button onClick={handleGoogleLogin} size="lg" disabled={loading}>
+        <Button onClick={handleGoogleLogin} size="lg" disabled={isSigningIn}>
           Googleでログイン
         </Button>
 
         <AlertDialog>
           <AlertDialogTrigger
             render={
-              <Button variant="outline" size="lg" disabled={loading}>
+              <Button variant="outline" size="lg" disabled={isSigningIn}>
                 ゲストで試す
               </Button>
             }

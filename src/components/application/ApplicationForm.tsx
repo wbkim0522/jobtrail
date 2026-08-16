@@ -1,13 +1,11 @@
-
-import { fetchApplications } from '@/api/applications'
 import StatusSelect from '@/components/application/StatusSelect'
 import { Field, FieldError, FieldGroup } from '@/components/ui/field'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
+import { useApplications } from '@/hooks/useApplications'
 import { getToday } from '@/lib/date'
 import type { Application, NewApplication } from '@/types/application'
-import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 
 const getInitialData = (): NewApplication => ({
@@ -26,13 +24,10 @@ interface ApplicationFormProps {
 
 const ApplicationForm = ({ defaultValue, onSubmit, formId }: ApplicationFormProps) => {
 
-  const { data } = useQuery({
-    queryKey: ['applications'],
-    queryFn: fetchApplications
-  })
+  const { data } = useApplications();
 
   const [newData, setNewData] = useState<NewApplication>(defaultValue ?? getInitialData());
-  const duplicate = (data ?? []).find((item) => (
+  const duplicate = (data).find((item) => (
     item.company === newData.company &&
     item.company !== '' &&
     item.id !== defaultValue?.id
