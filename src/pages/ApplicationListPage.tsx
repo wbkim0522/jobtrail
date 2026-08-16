@@ -1,20 +1,14 @@
-import { fetchApplications } from "@/api/applications"
 import ApplicationTable from "@/components/application/ApplicationTable"
 import CreateDialog from "@/components/application/CreateDialog"
-
 import { Input } from "@/components/ui/input"
-
-import { useQuery } from "@tanstack/react-query"
+import { useApplications } from "@/hooks/useApplications"
 import { Loader2, Search } from "lucide-react"
 import { useState } from "react"
 
 
 const ApplicationListPage = () => {
 
-  const { data, isLoading } = useQuery({
-    queryKey: ['applications'],
-    queryFn: fetchApplications
-  });
+  const { data, isLoading } = useApplications();
 
   const [keyword, setKeyword] = useState('');
 
