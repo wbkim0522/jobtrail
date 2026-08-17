@@ -95,6 +95,8 @@ npm パッケージではなくコードが手元にコピーされる方式の�
 
 ## 設計で意識したこと
 
+<img src="docs/architecture.svg" width="100%">
+
 ### API層の分離
 
 コンポーネントから Supabase を直接呼ばず、`src/api/applications.ts` に集約している。
