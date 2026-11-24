@@ -13,6 +13,60 @@ const application = (overrides: Partial<Application> = {}): Application => ({
 })
 
 describe('countByMonth', () => {
+  it('returns no months when all applications are drafts', () => {
+    expect(countByMonth([
+      application({ status: 'draft', appliedAt: '2025-12-01' }),
+      application({ status: 'draft', appliedAt: '2026-02-01' }),
+    ])).toEqual([])
+  })
+
+  it('excludes drafts while counting every non-draft status in the same month', () => {
+    expect(countByMonth([
+      application({ status: 'draft' }),
+      application({ status: 'applied' }),
+      application({ status: 'screening' }),
+      application({ status: 'interview' }),
+      application({ status: 'offer' }),
+      application({ status: 'rejected' }),
+      application({ status: 'withdrawn' }),
+    ])).toEqual([{ month: '2026-01', count: 6 }])
+  })
+
+  it('does not extend the range for drafts before or after actual applications', () => {
+    expect(countByMonth([
+      application({ status: 'draft', appliedAt: '2025-11-01' }),
+      application({ appliedAt: '2026-01-31' }),
+      application({ appliedAt: '2026-02-01' }),
+      application({ status: 'draft', appliedAt: '2026-04-01' }),
+    ])).toEqual([
+      { month: '2026-01', count: 1 },
+      { month: '2026-02', count: 1 },
+    ])
+  })
+
+  it('keeps an interior month with only drafts at zero', () => {
+    expect(countByMonth([
+      application({ appliedAt: '2026-01-31' }),
+      application({ status: 'draft', appliedAt: '2026-02-15' }),
+      application({ appliedAt: '2026-03-01' }),
+    ])).toEqual([
+      { month: '2026-01', count: 1 },
+      { month: '2026-02', count: 0 },
+      { month: '2026-03', count: 1 },
+    ])
+  })
+
+  it('ignores null dates and drafts together without creating a range', () => {
+    const excluded = [
+      application({ status: 'draft', appliedAt: null }),
+      application({ status: 'draft', appliedAt: '2025-12-01' }),
+      application({ appliedAt: null }),
+    ]
+    expect(countByMonth(excluded)).toEqual([])
+    expect(countByMonth([...excluded, application()]))
+      .toEqual([{ month: '2026-01', count: 1 }])
+  })
+
   it('returns no months for an empty list', () => {
     expect(countByMonth([])).toEqual([])
   })

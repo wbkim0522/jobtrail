@@ -16,6 +16,8 @@ export const countByMonth = (applications: Application[]): MonthlyCount[] => {
   }
 
   for (const app of applications) {
+    if (app.status === "draft") continue
+
     const month = app.appliedAt?.slice(0, 7) // yyyy-MM
     if (!month) continue
 
