@@ -182,6 +182,23 @@ cp .env.example .env.local   # Supabaseの接続情報を設定
 npm run dev
 ```
 
+### 自動テストと検証
+
+Node.js 22.12以上の22系（検証環境: 22.14.0）で、lockfileから依存関係をインストールします。
+
+```bash
+npm ci
+npm test             # 1回実行して終了。CIでも同じコマンド
+npm run test:watch   # 開発中の変更を監視
+npm run lint
+npm run build        # テストファイル・設定の型チェックも含む
+```
+
+VitestのNode環境で `src/lib/*.test.ts` の集計・日付テストを実行します。
+合成データと固定した時計を使用し、テストに `.env.local`、Supabase接続、外部サービスは不要です。
+失敗時は非ゼロで終了します。UI・認証・RLS・E2E、カバレッジ計測、GitHub Actionsは未構築です。
+選定理由は [ADR 003](docs/adr/003-adopt-vitest.md)、既存不具合と検証結果は [JT-001](docs/tasks/JT-001.md) を参照してください。
+
 ### DBスキーマ変更時
 
 ```bash
@@ -199,8 +216,8 @@ npm run gen:types   # supabase から型定義を再生成
 - モバイル対応（テーブル → カードビュー）
 
 **品質**
-- Vitest による単体テスト（純粋関数から着手）
-- GitHub Actions による lint / build の自動実行
+- 単体テストの対象拡充とUI・認証のテスト
+- GitHub Actions による test / lint / build の自動実行
 - ルート単位のコード分割によるバンドルサイズの削減
 
 ([トップへ](#jobtrail))
